@@ -1,10 +1,19 @@
+// import backgroundImage from '/images/background_nature.jpg';
+import backgroundImage2 from '/images/background_nature_forest2.png';
+
 export const styles = {
   container: {
     display: 'flex',
     flexDirection: 'row',
     height: '90vh',
     width: '90vw',
-    background: 'linear-gradient(to bottom, #e0f2fe, #dcfce7)',
+    // background: 'linear-gradient(to bottom, #d98777ff, #dcfce7)',
+    // backgroundImage: '../public/images/background_nature.jpg',
+    // backgroundImage: 'url("/images/background_nature.jpg")',
+    backgroundImage: `url(${backgroundImage2})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
     overflow: 'hidden',
   },
   sidebar: {
@@ -160,7 +169,8 @@ export const styles = {
   },
   playArea: {
     flex: 1,
-    background: 'linear-gradient(to bottom, #bae6fd, #bbf7d0)',
+    // background: 'linear-gradient(to bottom, #bae6fd, #bbf7d0)',
+    backgroundImage: `url(${backgroundImage2})`,
     position: 'relative',
     overflow: 'hidden',
     minHeight: 0,
