@@ -70,15 +70,15 @@ export const DraggableItem = ({ item, position, onDragStart, onTouchStart, onRem
             src={item.image}
             alt={item.name}
             style={{
-              width: isGerald ? '3rem' : '3rem',
-              height: isGerald ? '3rem' : '3rem',
+              width: isGerald ? '8rem' : '4rem',
+              height: isGerald ? '8rem' : '4rem',
               objectFit: 'cover',
               borderRadius: '0.5rem',
             }}
             onError={() => setImageError(true)}
           />
         ) : (
-          <div style={{ fontSize: isGerald ? '3rem' : '3rem' }}>
+          <div style={{ fontSize: isGerald ? '8rem' : '4rem' }}>
             {isGerald ? '🌱' : (item.defaultEmoji || '❓')}
           </div>
         )}
