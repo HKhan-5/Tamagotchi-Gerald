@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Camera, Sun, Droplets, Leaf, Package, X, ScrollText, Upload } from 'lucide-react';
+import { Sun, Droplets, Leaf, Package, X, ScrollText, Upload } from 'lucide-react';
+// import { Camera } from 'react-native-camera'
 import { styles } from './styles';
 import { ImageUploader } from './ImageUploader';
 import { DraggableItem } from './DraggableItem';
@@ -76,7 +77,7 @@ export default function GeraldTamagotchi() {
     setLogs(prev => [message, ...prev].slice(0, 50));
   };
 
-  const handleCapture = (type) => {
+  const handleCapture = async (type) => {
     setShowCamera(type);
   };
 
