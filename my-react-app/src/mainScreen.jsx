@@ -1,19 +1,5 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
-import { ImageUploader } from './ImageUploader.tsx'
-import { DraggableItem } from './DraggableItem.tsx'
-import { CameraModal } from './CameraModal.tsx'
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Camera, Sun, Droplets, Leaf, Package, X, ScrollText, Upload } from 'lucide-react';
-
-// createRoot(document.getElementById('root')!).render(
-//   <StrictMode>
-//     <App />
-//   </StrictMode>,
-// )
 
 const DECORATION_TYPES = [
   { id: 1, name: 'Pink Flower', defaultEmoji: '🌸' },
