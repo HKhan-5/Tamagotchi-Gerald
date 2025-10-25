@@ -1,4 +1,4 @@
-
+const styles = {
   container: {
     display: 'flex',
     height: '100vh',
@@ -6,7 +6,7 @@
   },
   sidebar: {
     width: '16rem',
-    background-color: 'white',
+    backgroundColor: 'white',
     boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
     padding: '1rem',
     overflowY: 'auto',
@@ -39,19 +39,19 @@
     cursor: 'pointer',
   },
   buttonSun: {
-    background-color: '#fbbf24',
+    backgroundColor: '#fbbf24',
     color: 'white',
   },
   buttonWater: {
-    background-color: '#60a5fa',
+    backgroundColor: '#60a5fa',
     color: 'white',
   },
   buttonGrass: {
-    background-color: '#22c55e',
+    backgroundColor: '#22c55e',
     color: 'white',
   },
   buttonDisabled: {
-    background-color: '#d1d5db',
+    backgroundColor: '#d1d5db',
     color: '#6b7280',
     cursor: 'not-allowed',
   },
@@ -80,7 +80,7 @@
   },
   inventoryPanel: {
     padding: '0.75rem',
-    background-color: '#faf5ff',
+    backgroundColor: '#faf5ff',
     borderRadius: '0.5rem',
     border: '2px solid #e9d5ff',
   },
@@ -92,7 +92,7 @@
   inventoryItem: {
     cursor: 'move',
     transition: 'transform 0.2s',
-    background-color: 'white',
+    backgroundColor: 'white',
     padding: '0.5rem',
     borderRadius: '0.5rem',
     boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
@@ -103,7 +103,7 @@
     justifyContent: 'center',
   },
   logsPanel: {
-    background-color: '#f0fdf4',
+    backgroundColor: '#f0fdf4',
     borderRadius: '0.5rem',
     padding: '0.75rem',
     border: '2px solid #bbf7d0',
@@ -124,7 +124,7 @@
     position: 'absolute',
     top: '1rem',
     left: '1rem',
-    background-color: '#fde047',
+    backgroundColor: '#fde047',
     padding: '0.5rem 1rem',
     borderRadius: '9999px',
     fontWeight: 'bold',
@@ -161,7 +161,7 @@
     transition: 'transform 0.2s',
   },
   statsBar: {
-    background-color: 'white',
+    backgroundColor: 'white',
     borderTop: '4px solid #22c55e',
     padding: '1rem',
     boxShadow: '0 -4px 6px -1px rgba(0, 0, 0, 0.1)',
@@ -185,7 +185,7 @@
   },
   statBar: {
     width: '100%',
-    background-color: '#e5e7eb',
+    backgroundColor: '#e5e7eb',
     borderRadius: '9999px',
     height: '1.5rem',
     overflow: 'hidden',
@@ -194,18 +194,18 @@
   modal: {
     position: 'fixed',
     inset: 0,
-    background-color: 'rgba(0, 0, 0, 0.75)',
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 50,
-  }
-
-modalContent {
-    background-color: 'white';
-    borderRadius: '0.5rem';
-    padding: '1.5rem';
-    maxWidth: '28rem';
-    width: '90%';
-    margin: '0 1rem';
-}
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    borderRadius: '0.5rem',
+    padding: '1.5rem',
+    maxWidth: '28rem',
+    width: '90%',
+    margin: '0 1rem',
+  },
+};
