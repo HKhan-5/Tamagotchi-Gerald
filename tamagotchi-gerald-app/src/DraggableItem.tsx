@@ -1,10 +1,11 @@
 import { styles } from "./styles";
 import { X } from "lucide-react"
 
-export const DraggableItem = ({ item, position, onDragStart, onRemove, isGerald }: {
+export const DraggableItem = ({ item, position, onDragStart, onTouchStart, onRemove, isGerald }: {
   item: { image?: string; name: string };
   position: { x: number; y: number };
   onDragStart: (e: React.DragEvent) => void;
+  onTouchStart?: (e: React.TouchEvent) => void;
   onRemove?: () => void;
   isGerald: boolean;
 }) => {
@@ -12,10 +13,12 @@ export const DraggableItem = ({ item, position, onDragStart, onRemove, isGerald 
     <div
       draggable
       onDragStart={onDragStart}
+      onTouchStart={onTouchStart}
       style={{
         ...styles.draggable,
         left: position.x,
         top: position.y,
+        touchAction: 'none',
       } as React.CSSProperties}
       onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
       onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}

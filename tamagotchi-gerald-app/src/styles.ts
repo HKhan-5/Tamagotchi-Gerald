@@ -1,14 +1,15 @@
 export const styles = {
   container: {
     display: 'flex',
+    flexDirection: 'row',
     height: '100vh',
     width: '100vw',
     background: 'linear-gradient(to bottom, #e0f2fe, #dcfce7)',
     overflow: 'hidden',
   },
   sidebar: {
-    width: '220px',
-    minWidth: '200px',
+    width: '16rem',
+    minWidth: '16rem',
     maxWidth: '280px',
     flexShrink: 0,
     backgroundColor: 'white',
