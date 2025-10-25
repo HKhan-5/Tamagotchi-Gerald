@@ -102,7 +102,7 @@ export function CameraModal({ type, onCapture, onClose }) {
       score: Math.round(detectionScore * 100),
       message: detected 
         ? `${getTargetName(targetType)} detected! ✓` 
-        : `No ${getTargetName(targetType)} found. Need ${Math.round(50 - detectionScore * 100)}% more!`
+        : `No ${getTargetName(targetType)} found. Need ${Math.round(10 - detectionScore * 100)}% more!`
     };
   };
 
