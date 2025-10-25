@@ -597,7 +597,7 @@ export default function GeraldTamagotchi() {
                 flexDirection: isMobile ? 'column' : 'row',
                 gap: isMobile ? '0.25rem' : '0.5rem',
               }}>
-                <span style={{ fontSize: isMobile ? '1.25rem' : '1.5rem' }}>😊</span>
+                <span style={{ fontSize: isMobile ? '1.25rem' : '1.5rem' }}><img src='/images/gerald.png' style={{ width: '2rem', height: '100%'}}/></span>
                 <span style={{ fontWeight: 'bold', fontSize: isMobile ? '0.75rem' : '1.125rem' }}>Happy</span>
               </div>
               <div style={styles.statBar}>
