@@ -95,14 +95,14 @@ export function CameraModal({ type, onCapture, onClose }) {
       detectionScore = detectGreen(pixels);
     }
     
-    const detected = detectionScore > 0.15; // 15% threshold
+    const detected = detectionScore > 0.10; // 10% threshold - needs 10% of the image to match
     
     return {
       detected,
       score: Math.round(detectionScore * 100),
       message: detected 
         ? `${getTargetName(targetType)} detected! ✓` 
-        : `No ${getTargetName(targetType)} found. Try again!`
+        : `No ${getTargetName(targetType)} found. Need ${Math.round(50 - detectionScore * 100)}% more!`
     };
   };
 
