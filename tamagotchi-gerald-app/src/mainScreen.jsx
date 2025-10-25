@@ -548,6 +548,7 @@ export default function GeraldTamagotchi() {
                 ...styles.statLabel,
                 flexDirection: isMobile ? 'column' : 'row',
                 gap: isMobile ? '0.25rem' : '0.5rem',
+                marginBottom: '1.25rem',
               }}>
                 <Droplets color="#A1C181" size={isMobile ? 20 : 24} />
                 <span style={{ fontWeight: 'bold', fontSize: isMobile ? '0.75rem' : '1.125rem' }}>Water</span>
@@ -572,6 +573,7 @@ export default function GeraldTamagotchi() {
                 ...styles.statLabel,
                 flexDirection: isMobile ? 'column' : 'row',
                 gap: isMobile ? '0.25rem' : '0.5rem',
+                marginBottom: '1.25rem',
               }}>
                 <Sun color="#FCCA46" size={isMobile ? 20 : 24} />
                 <span style={{ fontWeight: 'bold', fontSize: isMobile ? '0.75rem' : '1.125rem' }}>Sun</span>
