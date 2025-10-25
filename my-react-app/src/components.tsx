@@ -1,15 +1,22 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, type ReactEventHandler } from 'react';
 import { Camera, Sun, Droplets, Leaf, Package, X, ScrollText, Upload } from 'lucide-react';
+import { styles } from './styles';
 
-const ImageUploader = ({ onImageSelect, currentImage, size = 'medium' }) => {
-  const fileInputRef = useRef(null);
+const ImageUploader = ({ onImageSelect, currentImage, size = 'medium' }: {
+  onImageSelect: (image: string) => void;
+  currentImage?: string;
+  size?: 'small' | 'medium' | 'large';
+}) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
+  interface FileChangeEvent extends React.ChangeEvent<HTMLInputElement> {}
+
+  const handleFileChange = (e: FileChangeEvent): void => {
+    const file = e.target.files?.[0];
     if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        onImageSelect(reader.result);
+      reader.onloadend = (): void => {
+        onImageSelect(typeof reader.result == "string"? reader.result: "");
       };
       reader.readAsDataURL(file);
     }
@@ -60,7 +67,13 @@ const ImageUploader = ({ onImageSelect, currentImage, size = 'medium' }) => {
   );
 };
 
-const DraggableItem = ({ item, position, onDragStart, onRemove, isGerald }) => {
+const DraggableItem = ({ item, position, onDragStart, onRemove, isGerald }: {
+  item: { image?: string; name: string };
+  position: { x: number; y: number };
+  onDragStart: (e: React.DragEvent) => void;
+  onRemove?: () => void;
+  isGerald: boolean;
+}) => {
   return (
     <div
       draggable
@@ -69,7 +82,7 @@ const DraggableItem = ({ item, position, onDragStart, onRemove, isGerald }) => {
         ...styles.draggable,
         left: position.x,
         top: position.y,
-      }}
+      } as React.CSSProperties}
       onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
       onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
     >
@@ -94,7 +107,7 @@ const DraggableItem = ({ item, position, onDragStart, onRemove, isGerald }) => {
             transition: 'opacity 0.2s',
             zIndex: 10,
           }}
-          onMouseEnter={(e) => e.currentTarget.style.opacity = 1}
+          onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
         >
           <X size={12} />
         </button>
@@ -104,12 +117,12 @@ const DraggableItem = ({ item, position, onDragStart, onRemove, isGerald }) => {
           filter: 'drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))',
         }}
         onMouseEnter={(e) => {
-          const removeBtn = e.currentTarget.parentElement.querySelector('button');
-          if (removeBtn) removeBtn.style.opacity = 1;
+          const removeBtn = e.currentTarget.parentElement?.querySelector('button');
+          if (removeBtn) removeBtn.style.opacity = '1';
         }}
         onMouseLeave={(e) => {
-          const removeBtn = e.currentTarget.parentElement.querySelector('button');
-          if (removeBtn) removeBtn.style.opacity = 0;
+          const removeBtn = e.currentTarget.parentElement?.querySelector('button');
+          if (removeBtn) removeBtn.style.opacity = '0';
         }}
       >
         {item.image ? (
@@ -149,9 +162,13 @@ const DraggableItem = ({ item, position, onDragStart, onRemove, isGerald }) => {
   );
 };
 
-const CameraModal = ({ type, onCapture, onClose }) => {
+const CameraModal = ({ type, onCapture, onClose }: {
+  type: string;
+  onCapture: () => void;
+  onClose: () => void;
+}) => {
   return (
-    <div style={styles.modal}>
+    <div style={styles.modal as React.CSSProperties}>
       <div style={styles.modalContent}>
         <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem', textAlign: 'center' }}>
           {type === 'sun' && '☀️ Capture Sunlight'}
