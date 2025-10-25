@@ -273,7 +273,7 @@ export default function GeraldTamagotchi() {
             top: '0.5rem',
             left: '0.5rem',
             zIndex: 100,
-            backgroundColor: '#22c55e',
+            backgroundColor: '#A1C181',
             color: 'white',
             border: 'none',
             borderRadius: '0.5rem',
@@ -316,7 +316,7 @@ export default function GeraldTamagotchi() {
             onClick={() => handleCapture('sun')}
             style={{ ...styles.button, ...styles.buttonSun }}
             onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f59e0b'}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#fbbf24'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#FCCA46'}
           >
             <Sun size={20} />
             Capture Sun
@@ -326,7 +326,7 @@ export default function GeraldTamagotchi() {
             onClick={() => handleCapture('water')}
             style={{ ...styles.button, ...styles.buttonWater }}
             onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#3b82f6'}
-            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#60a5fa'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#233D4D'}
           >
             <Droplets size={20} />
             Capture Water
@@ -388,7 +388,7 @@ export default function GeraldTamagotchi() {
         <div style={styles.panelContent}>
           {activePanel === 'inventory' && (
             <div style={styles.inventoryPanel}>
-              <h3 style={{ fontWeight: 'bold', marginBottom: '0.75rem', color: '#6b21a8', textAlign: 'center' }}>
+              <h3 style={{ fontWeight: 'bold', marginBottom: '0.75rem', color: '#233D4D', textAlign: 'center' }}>
                 Inventory ({inventory.length})
               </h3>
               <div style={styles.inventoryGrid}>
@@ -432,7 +432,7 @@ export default function GeraldTamagotchi() {
 
           {activePanel === 'logs' && (
             <div style={styles.logsPanel}>
-              <h3 style={{ fontWeight: 'bold', marginBottom: '0.75rem', color: '#166534', textAlign: 'center' }}>
+              <h3 style={{ fontWeight: 'bold', marginBottom: '0.75rem', color: '#A1C181', textAlign: 'center' }}>
                 Activity Log
               </h3>
               <div>
@@ -441,7 +441,7 @@ export default function GeraldTamagotchi() {
                     key={i}
                     style={{
                       ...styles.logEntry,
-                      borderBottom: i === logs.length - 1 ? 'none' : '1px solid #bbf7d0',
+                      borderBottom: i === logs.length - 1 ? 'none' : '1px solid #',
                     }}
                   >
                     {log}
@@ -466,7 +466,7 @@ export default function GeraldTamagotchi() {
         <div
           style={{
             ...styles.gachaButton,
-            backgroundColor: gachaAnimating ? '#fde047' : currency >= GACHA_COST ? '#fbbf24' : '#d1d5db',
+            backgroundColor: gachaAnimating ? '#FCCA46' : currency >= GACHA_COST ? '#fbbf24' : '#d1d5db',
             cursor: currency >= GACHA_COST && !gachaAnimating ? 'pointer' : 'not-allowed',
             animation: gachaAnimating ? 'spin 1s linear infinite' : 'none',
             width: isMobile ? '4rem' : '6rem',
@@ -552,7 +552,7 @@ export default function GeraldTamagotchi() {
               <div style={styles.statBar}>
                 <div
                   style={{
-                    backgroundColor: '#619B8A',
+                    backgroundColor: '#233D4D',
                     height: '100%',
                     transition: 'width 0.3s',
                     width: `${gerald.water}%`,
@@ -600,7 +600,7 @@ export default function GeraldTamagotchi() {
               <div style={styles.statBar}>
                 <div
                   style={{
-                    backgroundColor: '#A1C181',
+                    backgroundColor: '#FE7F2D',
                     height: '100%',
                     transition: 'width 0.3s',
                     width: `${gerald.happiness}%`,

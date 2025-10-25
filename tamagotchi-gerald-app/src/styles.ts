@@ -59,7 +59,7 @@ export const styles = {
     color: 'white',
   },
   buttonWater: {
-    backgroundColor: '#619B8A',
+    backgroundColor: '#233D4D',
     color: 'white',
   },
   buttonGrass: {
