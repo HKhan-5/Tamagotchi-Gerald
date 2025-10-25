@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Camera, Sun, Droplets, Leaf, Package, X, ScrollText, Upload } from 'lucide-react';
+import { styles } from './styles';
+import { ImageUploader } from './ImageUploader';
+import { DraggableItem } from './DraggableItem';
+import { CameraModal } from './CameraModal';
 
 const DECORATION_TYPES = [
   { id: 1, name: 'Pink Flower', defaultEmoji: '🌸' },
