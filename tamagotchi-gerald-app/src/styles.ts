@@ -55,11 +55,11 @@ export const styles = {
     fontSize: '0.875rem',
   },
   buttonSun: {
-    backgroundColor: '#fbbf24',
+    backgroundColor: '#FCCA46',
     color: 'white',
   },
   buttonWater: {
-    backgroundColor: '#60a5fa',
+    backgroundColor: '#619B8A',
     color: 'white',
   },
   buttonGrass: {
@@ -142,7 +142,7 @@ export const styles = {
     position: 'absolute',
     top: '1rem',
     left: '1rem',
-    backgroundColor: '#fde047',
+    backgroundColor: '#FCCA46',
     padding: '0.5rem 1rem',
     borderRadius: '9999px',
     fontWeight: 'bold',
@@ -182,7 +182,7 @@ export const styles = {
   },
   statsBar: {
     backgroundColor: 'white',
-    borderTop: '4px solid #22c55e',
+    borderTop: '4px solid #A1C181',
     padding: '1rem',
     boxShadow: '0 -4px 6px -1px rgba(0, 0, 0, 0.1)',
     flexShrink: 0,
