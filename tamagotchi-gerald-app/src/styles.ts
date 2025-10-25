@@ -1,11 +1,13 @@
 export const styles = {
   container: {
     display: 'flex',
+    flexDirection: 'row',
     height: '100vh',
     background: 'linear-gradient(to bottom, #e0f2fe, #dcfce7)',
   },
   sidebar: {
     width: '16rem',
+    minWidth: '16rem',
     backgroundColor: 'white',
     boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
     padding: '1rem',

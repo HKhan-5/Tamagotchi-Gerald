@@ -37,8 +37,22 @@ export default function GeraldTamagotchi() {
   const [draggedItem, setDraggedItem] = useState(null);
   const [gachaAnimating, setGachaAnimating] = useState(false);
   const [showCamera, setShowCamera] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   
   const mainScreenRef = useRef(null);
+
+  // Handle window resize for responsive design
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      if (window.innerWidth > 768) {
+        setSidebarOpen(false); // Reset sidebar on desktop
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -133,7 +147,9 @@ export default function GeraldTamagotchi() {
 
   const handleDragStart = (e, item, fromInventory = false) => {
     setDraggedItem({ item, fromInventory });
-    e.dataTransfer.effectAllowed = 'move';
+    if (e.dataTransfer) {
+      e.dataTransfer.effectAllowed = 'move';
+    }
   };
 
   const handleDrop = (e) => {
@@ -163,6 +179,73 @@ export default function GeraldTamagotchi() {
     setDraggedItem(null);
   };
 
+  // Touch handlers for mobile dragging
+  const handleTouchStart = (e, item, fromInventory = false) => {
+    e.stopPropagation();
+    setDraggedItem({ item, fromInventory, touchStarted: true });
+  };
+
+  const handleTouchMove = (e) => {
+    if (!draggedItem || !draggedItem.touchStarted || !mainScreenRef.current) return;
+    
+    // Don't call preventDefault here - we'll handle it in the touch event registration
+    const touch = e.touches[0];
+    const rect = mainScreenRef.current.getBoundingClientRect();
+    
+    // Calculate position with boundaries (keep items within play area)
+    let x = touch.clientX - rect.left - 30;
+    let y = touch.clientY - rect.top - 30;
+    
+    // Constrain within boundaries (leaving some margin for item size)
+    const itemSize = draggedItem.item.uniqueId === 'gerald' ? 64 : 48; // 4rem = 64px, 3rem = 48px
+    const maxX = rect.width - itemSize;
+    const maxY = rect.height - itemSize;
+    
+    x = Math.max(0, Math.min(x, maxX));
+    y = Math.max(0, Math.min(y, maxY));
+    
+    // Update position in real-time during drag
+    if (draggedItem.item.uniqueId === 'gerald') {
+      setGerald(prev => ({ ...prev, position: { x, y } }));
+    } else if (!draggedItem.fromInventory) {
+      setPlacedDecorations(prev => prev.map(d => 
+        d.uniqueId === draggedItem.item.uniqueId 
+          ? { ...d, position: { x, y } }
+          : d
+      ));
+    }
+  };
+
+  const handleTouchEnd = (e) => {
+    if (!draggedItem || !draggedItem.touchStarted || !mainScreenRef.current) return;
+    
+    const touch = e.changedTouches[0];
+    const rect = mainScreenRef.current.getBoundingClientRect();
+    
+    // Calculate position with boundaries
+    let x = touch.clientX - rect.left - 30;
+    let y = touch.clientY - rect.top - 30;
+    
+    // Constrain within boundaries
+    const itemSize = draggedItem.item.uniqueId === 'gerald' ? 64 : 48;
+    const maxX = rect.width - itemSize;
+    const maxY = rect.height - itemSize;
+    
+    x = Math.max(0, Math.min(x, maxX));
+    y = Math.max(0, Math.min(y, maxY));
+    
+    // Only handle fromInventory case (placing new items)
+    if (draggedItem.fromInventory) {
+      setPlacedDecorations(prev => [...prev, {
+        ...draggedItem.item,
+        position: { x, y },
+      }]);
+      setInventory(prev => prev.filter(i => i.uniqueId !== draggedItem.item.uniqueId));
+    }
+    
+    setDraggedItem(null);
+  };
+
   const removeDecoration = (uniqueId) => {
     const deco = placedDecorations.find(d => d.uniqueId === uniqueId);
     if (deco) {
@@ -178,10 +261,56 @@ export default function GeraldTamagotchi() {
   };
 
   return (
-    <div style={styles.container}>
+    <div style={{
+      ...styles.container,
+      flexDirection: isMobile ? 'column' : 'row',
+    }}>
+      {/* Mobile Menu Button */}
+      {isMobile && (
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          style={{
+            position: 'fixed',
+            top: '0.5rem',
+            left: '0.5rem',
+            zIndex: 100,
+            backgroundColor: '#22c55e',
+            color: 'white',
+            border: 'none',
+            borderRadius: '0.5rem',
+            padding: '0.5rem',
+            cursor: 'pointer',
+            boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Package size={24} />
+        </button>
+      )}
+
       {/* Left Sidebar */}
-      <div style={styles.sidebar}>
-        <h1 style={styles.sidebarTitle}>Gerald's Garden</h1>
+      <div style={{
+        ...styles.sidebar,
+        width: isMobile ? '100%' : '16rem',
+        minWidth: isMobile ? 'auto' : '16rem',
+        height: isMobile ? (sidebarOpen ? '70vh' : '0') : 'auto',
+        maxHeight: isMobile ? '70vh' : 'none',
+        position: isMobile ? 'fixed' : 'relative',
+        bottom: isMobile ? '0' : 'auto',
+        left: '0',
+        right: '0',
+        zIndex: 50,
+        transition: 'height 0.3s ease',
+        overflow: sidebarOpen || !isMobile ? 'auto' : 'hidden',
+        borderTopLeftRadius: isMobile ? '1rem' : '0',
+        borderTopRightRadius: isMobile ? '1rem' : '0',
+      }}>
+        <h1 style={{
+          ...styles.sidebarTitle,
+          fontSize: isMobile ? '1.25rem' : '1.5rem',
+        }}>Gerald's Garden</h1>
         
         <div style={styles.buttonGroup}>
           <button
@@ -217,20 +346,6 @@ export default function GeraldTamagotchi() {
             <Leaf size={20} />
             Revive (Grass)
           </button>
-        </div>
-
-        {/* Gerald Image Uploader Section */}
-        <div style={{ marginBottom: '1rem', padding: '0.75rem', backgroundColor: '#dcfce7', borderRadius: '0.5rem', border: '2px solid #86efac' }}>
-          <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem', color: '#166534', textAlign: 'center' }}>
-            Customize Gerald
-          </h3>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <ImageUploader
-              onImageSelect={(image) => setGerald(prev => ({ ...prev, image }))}
-              currentImage={gerald.image}
-              size="medium"
-            />
-          </div>
         </div>
 
         <div style={styles.toggleButtons}>
@@ -283,7 +398,11 @@ export default function GeraldTamagotchi() {
                     key={item.uniqueId}
                     draggable
                     onDragStart={(e) => handleDragStart(e, item, true)}
-                    style={styles.inventoryItem}
+                    onTouchStart={(e) => handleTouchStart(e, item, true)}
+                    style={{
+                      ...styles.inventoryItem,
+                      touchAction: 'none',
+                    }}
                     title={item.name}
                     onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
                     onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
@@ -337,7 +456,13 @@ export default function GeraldTamagotchi() {
 
       {/* Main Screen */}
       <div style={styles.mainContainer}>
-        <div style={styles.currency}>💰 {currency}</div>
+        <div style={{
+          ...styles.currency,
+          top: isMobile ? '0.5rem' : '1rem',
+          left: isMobile ? '3.5rem' : '1rem',
+          fontSize: isMobile ? '0.875rem' : '1.125rem',
+          padding: isMobile ? '0.375rem 0.75rem' : '0.5rem 1rem',
+        }}>💰 {currency}</div>
 
         <div
           style={{
@@ -345,6 +470,10 @@ export default function GeraldTamagotchi() {
             backgroundColor: gachaAnimating ? '#fde047' : currency >= GACHA_COST ? '#fbbf24' : '#d1d5db',
             cursor: currency >= GACHA_COST && !gachaAnimating ? 'pointer' : 'not-allowed',
             animation: gachaAnimating ? 'spin 1s linear infinite' : 'none',
+            width: isMobile ? '4rem' : '6rem',
+            height: isMobile ? '4rem' : '6rem',
+            top: isMobile ? '0.5rem' : '1rem',
+            right: isMobile ? '0.5rem' : '1rem',
           }}
           onClick={handleGacha}
           title={`Gacha (${GACHA_COST} coins)`}
@@ -376,12 +505,18 @@ export default function GeraldTamagotchi() {
           ref={mainScreenRef}
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
-          style={styles.playArea}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          style={{
+            ...styles.playArea,
+            touchAction: 'none',
+          }}
         >
           <DraggableItem
             item={{ uniqueId: 'gerald', image: gerald.image, name: 'Gerald' }}
             position={gerald.position}
             onDragStart={(e) => handleDragStart(e, { uniqueId: 'gerald' })}
+            onTouchStart={(e) => handleTouchStart(e, { uniqueId: 'gerald' })}
             isGerald
           />
 
@@ -391,17 +526,29 @@ export default function GeraldTamagotchi() {
               item={deco}
               position={deco.position}
               onDragStart={(e) => handleDragStart(e, deco)}
+              onTouchStart={(e) => handleTouchStart(e, deco)}
               onRemove={() => removeDecoration(deco.uniqueId)}
             />
           ))}
         </div>
 
-        <div style={styles.statsBar}>
-          <div style={styles.statsGrid}>
+        <div style={{
+          ...styles.statsBar,
+          padding: isMobile ? '0.5rem' : '1rem',
+        }}>
+          <div style={{
+            ...styles.statsGrid,
+            gridTemplateColumns: isMobile ? 'repeat(3, 1fr)' : 'repeat(3, 1fr)',
+            gap: isMobile ? '0.5rem' : '1.5rem',
+          }}>
             <div style={styles.statItem}>
-              <div style={styles.statLabel}>
-                <Droplets color="#3b82f6" size={24} />
-                <span style={{ fontWeight: 'bold', fontSize: '1.125rem' }}>Water</span>
+              <div style={{
+                ...styles.statLabel,
+                flexDirection: isMobile ? 'column' : 'row',
+                gap: isMobile ? '0.25rem' : '0.5rem',
+              }}>
+                <Droplets color="#3b82f6" size={isMobile ? 20 : 24} />
+                <span style={{ fontWeight: 'bold', fontSize: isMobile ? '0.75rem' : '1.125rem' }}>Water</span>
               </div>
               <div style={styles.statBar}>
                 <div
@@ -413,15 +560,19 @@ export default function GeraldTamagotchi() {
                   }}
                 />
               </div>
-              <div style={{ fontSize: '0.875rem', marginTop: '0.5rem', fontWeight: '600' }}>
+              <div style={{ fontSize: isMobile ? '0.625rem' : '0.875rem', marginTop: '0.25rem', fontWeight: '600' }}>
                 {Math.round(gerald.water)}%
               </div>
             </div>
 
             <div style={styles.statItem}>
-              <div style={styles.statLabel}>
-                <Sun color="#eab308" size={24} />
-                <span style={{ fontWeight: 'bold', fontSize: '1.125rem' }}>Sun</span>
+              <div style={{
+                ...styles.statLabel,
+                flexDirection: isMobile ? 'column' : 'row',
+                gap: isMobile ? '0.25rem' : '0.5rem',
+              }}>
+                <Sun color="#eab308" size={isMobile ? 20 : 24} />
+                <span style={{ fontWeight: 'bold', fontSize: isMobile ? '0.75rem' : '1.125rem' }}>Sun</span>
               </div>
               <div style={styles.statBar}>
                 <div
@@ -433,15 +584,19 @@ export default function GeraldTamagotchi() {
                   }}
                 />
               </div>
-              <div style={{ fontSize: '0.875rem', marginTop: '0.5rem', fontWeight: '600' }}>
+              <div style={{ fontSize: isMobile ? '0.625rem' : '0.875rem', marginTop: '0.25rem', fontWeight: '600' }}>
                 {Math.round(gerald.sun)}%
               </div>
             </div>
 
             <div style={styles.statItem}>
-              <div style={styles.statLabel}>
-                <span style={{ fontSize: '1.5rem' }}>😊</span>
-                <span style={{ fontWeight: 'bold', fontSize: '1.125rem' }}>Happiness</span>
+              <div style={{
+                ...styles.statLabel,
+                flexDirection: isMobile ? 'column' : 'row',
+                gap: isMobile ? '0.25rem' : '0.5rem',
+              }}>
+                <span style={{ fontSize: isMobile ? '1.25rem' : '1.5rem' }}>😊</span>
+                <span style={{ fontWeight: 'bold', fontSize: isMobile ? '0.75rem' : '1.125rem' }}>Happy</span>
               </div>
               <div style={styles.statBar}>
                 <div
@@ -453,7 +608,7 @@ export default function GeraldTamagotchi() {
                   }}
                 />
               </div>
-              <div style={{ fontSize: '0.875rem', marginTop: '0.5rem', fontWeight: '600' }}>
+              <div style={{ fontSize: isMobile ? '0.625rem' : '0.875rem', marginTop: '0.25rem', fontWeight: '600' }}>
                 {Math.round(gerald.happiness)}%
               </div>
             </div>
