@@ -8,13 +8,12 @@ import { CameraModal } from './CameraModal';
 
 const DECORATION_TYPES = [
   { id: 1, name: 'Pink Flower', defaultEmoji: '🌸', image: '/images/flower-pink.png' },
-  { id: 2, name: 'Sunflower', defaultEmoji: '🌻', image: '/images/flower-sun.png' },
+  { id: 2, name: 'Balloon', defaultEmoji: '🎈', image: '/images/balloon.png' },
   { id: 3, name: 'Mushroom', defaultEmoji: '🍄', image: '/images/mushroom.png' },
   { id: 4, name: 'Butterfly', defaultEmoji: '🦋', image: '/images/butterfly.png' },
-  { id: 5, name: 'Rainbow', defaultEmoji: '🌈', image: '/images/rainbow.png' },
-  { id: 6, name: 'Star', defaultEmoji: '⭐', image: '/images/star.png' },
-  { id: 7, name: 'Moon', defaultEmoji: '🌙', image: '/images/moon.png' },
-  { id: 8, name: 'Bee', defaultEmoji: '🐝', image: '/images/bee.png' },
+  { id: 5, name: 'Star', defaultEmoji: '⭐', image: '/images/star.png' },
+  { id: 6, name: 'Moon', defaultEmoji: '🌙', image: '/images/moon.png' },
+  { id: 7, name: 'Bee', defaultEmoji: '🐝', image: '/images/bee.png' },
 ];
 
 const GACHA_COST = 50;
@@ -137,7 +136,6 @@ export default function GeraldTamagotchi() {
       const newDeco = {
         ...randomDeco,
         uniqueId: Date.now(),
-        image: null,
       };
       
       setInventory(prev => [...prev, newDeco]);
@@ -198,7 +196,7 @@ export default function GeraldTamagotchi() {
     let y = touch.clientY - rect.top - 30;
     
     // Constrain within boundaries (leaving some margin for item size)
-    const itemSize = draggedItem.item.uniqueId === 'gerald' ? 64 : 48; // 4rem = 64px, 3rem = 48px
+    const itemSize = draggedItem.item.uniqueId === 'gerald' ? 48 : 48; // 3rem = 48px
     const maxX = rect.width - itemSize;
     const maxY = rect.height - itemSize;
     
@@ -228,7 +226,7 @@ export default function GeraldTamagotchi() {
     let y = touch.clientY - rect.top - 30;
     
     // Constrain within boundaries
-    const itemSize = draggedItem.item.uniqueId === 'gerald' ? 64 : 48;
+    const itemSize = draggedItem.item.uniqueId === 'gerald' ? 48 : 48; // 3rem = 48px
     const maxX = rect.width - itemSize;
     const maxY = rect.height - itemSize;
     
