@@ -29,7 +29,7 @@ export default function GeraldTamagotchi() {
   });
   
   const [gachaImage, setGachaImage] = useState('/images/gacha-button.png');
-  const [currency, setCurrency] = useState(100);
+  const [currency, setCurrency] = useState(10000);
   const [logs, setLogs] = useState(['Gerald has sprouted! 🌱']);
   const [inventory, setInventory] = useState([]);
   const [placedDecorations, setPlacedDecorations] = useState([]);
@@ -461,7 +461,10 @@ export default function GeraldTamagotchi() {
           left: isMobile ? '3.5rem' : '1rem',
           fontSize: isMobile ? '0.875rem' : '1.125rem',
           padding: isMobile ? '0.375rem 0.75rem' : '0.5rem 1rem',
-        }}>💰 {currency}</div>
+        }}><img 
+        src='/images/currency.png' 
+        style={{ width: '1.5rem', height: '4%', marginBottom: '-5px'}}
+        /> {currency}</div>
 
         <div
           style={{
