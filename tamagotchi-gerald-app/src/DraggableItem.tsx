@@ -1,14 +1,17 @@
+import React from "react";
 import { styles } from "./styles";
 import { X } from "lucide-react"
 
 export const DraggableItem = ({ item, position, onDragStart, onTouchStart, onRemove, isGerald }: {
-  item: { image?: string; name: string };
+  item: { image?: string; name: string; defaultEmoji?: string };
   position: { x: number; y: number };
   onDragStart: (e: React.DragEvent) => void;
   onTouchStart?: (e: React.TouchEvent) => void;
   onRemove?: () => void;
   isGerald: boolean;
 }) => {
+  const [imageError, setImageError] = React.useState(false);
+  
   return (
     <div
       draggable
@@ -62,20 +65,21 @@ export const DraggableItem = ({ item, position, onDragStart, onTouchStart, onRem
           if (removeBtn) removeBtn.style.opacity = '0';
         }}
       >
-        {item.image ? (
+        {item.image && !imageError ? (
           <img
             src={item.image}
             alt={item.name}
             style={{
-              width: isGerald ? '4rem' : '3rem',
-              height: isGerald ? '4rem' : '3rem',
+              width: isGerald ? '3rem' : '3rem',
+              height: isGerald ? '3rem' : '3rem',
               objectFit: 'cover',
               borderRadius: '0.5rem',
             }}
+            onError={() => setImageError(true)}
           />
         ) : (
-          <div style={{ fontSize: isGerald ? '4rem' : '3rem' }}>
-            {isGerald ? '🌱' : '❓'}
+          <div style={{ fontSize: isGerald ? '3rem' : '3rem' }}>
+            {isGerald ? '🌱' : (item.defaultEmoji || '❓')}
           </div>
         )}
       </div>
