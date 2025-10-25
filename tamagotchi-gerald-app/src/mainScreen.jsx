@@ -546,13 +546,13 @@ export default function GeraldTamagotchi() {
                 flexDirection: isMobile ? 'column' : 'row',
                 gap: isMobile ? '0.25rem' : '0.5rem',
               }}>
-                <Droplets color="#3b82f6" size={isMobile ? 20 : 24} />
+                <Droplets color="#A1C181" size={isMobile ? 20 : 24} />
                 <span style={{ fontWeight: 'bold', fontSize: isMobile ? '0.75rem' : '1.125rem' }}>Water</span>
               </div>
               <div style={styles.statBar}>
                 <div
                   style={{
-                    backgroundColor: '#3b82f6',
+                    backgroundColor: '#619B8A',
                     height: '100%',
                     transition: 'width 0.3s',
                     width: `${gerald.water}%`,
@@ -570,13 +570,13 @@ export default function GeraldTamagotchi() {
                 flexDirection: isMobile ? 'column' : 'row',
                 gap: isMobile ? '0.25rem' : '0.5rem',
               }}>
-                <Sun color="#eab308" size={isMobile ? 20 : 24} />
+                <Sun color="#FCCA46" size={isMobile ? 20 : 24} />
                 <span style={{ fontWeight: 'bold', fontSize: isMobile ? '0.75rem' : '1.125rem' }}>Sun</span>
               </div>
               <div style={styles.statBar}>
                 <div
                   style={{
-                    backgroundColor: '#eab308',
+                    backgroundColor: '#FCCA46',
                     height: '100%',
                     transition: 'width 0.3s',
                     width: `${gerald.sun}%`,
@@ -600,7 +600,7 @@ export default function GeraldTamagotchi() {
               <div style={styles.statBar}>
                 <div
                   style={{
-                    backgroundColor: '#22c55e',
+                    backgroundColor: '#A1C181',
                     height: '100%',
                     transition: 'width 0.3s',
                     width: `${gerald.happiness}%`,
