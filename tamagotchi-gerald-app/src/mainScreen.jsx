@@ -63,7 +63,7 @@ export default function GeraldTamagotchi() {
         const newSun = Math.max(0, prev.sun - 0.5);
         
         let newHappiness = prev.happiness;
-        if (newWater < 20 && newSun < 20) {
+        if (newWater < 20 | newSun < 20) {
           newHappiness = Math.max(0, prev.happiness - 1);
         }
         
