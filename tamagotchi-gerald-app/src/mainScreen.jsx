@@ -6,14 +6,14 @@ import { DraggableItem } from './DraggableItem';
 import { CameraModal } from './CameraModal';
 
 const DECORATION_TYPES = [
-  { id: 1, name: 'Pink Flower', defaultEmoji: '🌸' },
-  { id: 2, name: 'Sunflower', defaultEmoji: '🌻' },
-  { id: 3, name: 'Mushroom', defaultEmoji: '🍄' },
-  { id: 4, name: 'Butterfly', defaultEmoji: '🦋' },
-  { id: 5, name: 'Rainbow', defaultEmoji: '🌈' },
-  { id: 6, name: 'Star', defaultEmoji: '⭐' },
-  { id: 7, name: 'Moon', defaultEmoji: '🌙' },
-  { id: 8, name: 'Bee', defaultEmoji: '🐝' },
+  { id: 1, name: 'Pink Flower', defaultEmoji: '🌸', image: '/images/flower-pink.png' },
+  { id: 2, name: 'Sunflower', defaultEmoji: '🌻', image: '/images/flower-sun.png' },
+  { id: 3, name: 'Mushroom', defaultEmoji: '🍄', image: '/images/mushroom.png' },
+  { id: 4, name: 'Butterfly', defaultEmoji: '🦋', image: '/images/butterfly.png' },
+  { id: 5, name: 'Rainbow', defaultEmoji: '🌈', image: '/images/rainbow.png' },
+  { id: 6, name: 'Star', defaultEmoji: '⭐', image: '/images/star.png' },
+  { id: 7, name: 'Moon', defaultEmoji: '🌙', image: '/images/moon.png' },
+  { id: 8, name: 'Bee', defaultEmoji: '🐝', image: '/images/bee.png' },
 ];
 
 const GACHA_COST = 50;
@@ -25,10 +25,10 @@ export default function GeraldTamagotchi() {
     water: 100,
     sun: 100,
     happiness: 100,
-    image: null,
+    image: '/images/gerald.png', // Gerald's image - will fallback to emoji if image not found
   });
   
-  const [gachaImage, setGachaImage] = useState(null);
+  const [gachaImage, setGachaImage] = useState('/images/gacha-button.png');
   const [currency, setCurrency] = useState(100);
   const [logs, setLogs] = useState(['Gerald has sprouted! 🌱']);
   const [inventory, setInventory] = useState([]);
@@ -219,6 +219,20 @@ export default function GeraldTamagotchi() {
           </button>
         </div>
 
+        {/* Gerald Image Uploader Section */}
+        <div style={{ marginBottom: '1rem', padding: '0.75rem', backgroundColor: '#dcfce7', borderRadius: '0.5rem', border: '2px solid #86efac' }}>
+          <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', marginBottom: '0.5rem', color: '#166534', textAlign: 'center' }}>
+            Customize Gerald
+          </h3>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <ImageUploader
+              onImageSelect={(image) => setGerald(prev => ({ ...prev, image }))}
+              currentImage={gerald.image}
+              size="medium"
+            />
+          </div>
+        </div>
+
         <div style={styles.toggleButtons}>
           <button
             onClick={() => setActivePanel(activePanel === 'inventory' ? null : 'inventory')}
@@ -274,19 +288,19 @@ export default function GeraldTamagotchi() {
                     onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
                     onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                   >
-                    {item.image ? (
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '0.5rem' }}
-                      />
-                    ) : (
-                      <ImageUploader
-                        onImageSelect={(image) => updateInventoryImage(item.uniqueId, image)}
-                        currentImage={item.image}
-                        size="small"
-                      />
-                    )}
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '0.5rem' }}
+                      onError={(e) => {
+                        // Fallback to emoji if image fails to load
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'flex';
+                      }}
+                    />
+                    <div style={{ fontSize: '3rem', display: 'none' }}>
+                      {item.defaultEmoji}
+                    </div>
                   </div>
                 ))}
                 {inventory.length === 0 && (
@@ -343,11 +357,19 @@ export default function GeraldTamagotchi() {
             e.currentTarget.style.transform = 'scale(1)';
           }}
         >
-          <ImageUploader
-            onImageSelect={setGachaImage}
-            currentImage={gachaImage}
-            size="large"
+          <img
+            src={gachaImage}
+            alt="Gacha Machine"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '9999px' }}
+            onError={(e) => {
+              // Fallback to emoji if gacha image fails to load
+              e.target.style.display = 'none';
+              e.target.nextSibling.style.display = 'flex';
+            }}
           />
+          <div style={{ fontSize: '4rem', display: 'none', width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center' }}>
+            🎰
+          </div>
         </div>
 
         <div
